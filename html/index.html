@@ -1,0 +1,31 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Claw Controller</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/vendor/socket.io.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+    <h1>Control the claw.</h1>
+
+    <div class="wrap" id="wrap">
+        <div class="controls direct">
+            <h2>Direct Motor Control</h2>
+            <button id="motor-fw">1) forward ↑ </button>
+            <button id="motor-bk">2) back ↓ </button>
+            <button id="motor-lf">3) left ← </button>
+            <button id="motor-rt">4) right → </button>
+            <button id="motor-up">5) up < </button>
+            <button id="motor-dn">6) down > </button>
+            <button id="motor-cl">7) claw / </button>
+        </div>
+        <div class="controls programmed">
+            <h2>Programmed Moves</h2>
+            <button id="rs">8) reset</button>
+            <button id="gr">9) grab</button>
+        </div>
+    </div>
+</body>
+</html>
