@@ -10,48 +10,48 @@ var gpio = require("gpio");
 var gpios = {
 
     "motor-fw" : {
-        "header" : 5,
+        "header" : 15,
         "prevent" : "bk",
         "direction" : "out",
         "mode" : "direct",
-        "init": 0
+        "init" : 0
     },
     "motor-bk" : {
-        "header" : 11,
+        "header" : 18,
         "prevent" : "fw",
         "direction" : "out",
         "mode" : "direct",
-        "init": 0
+        "init" : 0
     },
     "motor-lf" : {
-        "header" : 10,
+        "header" : 23,
         "direction" : "out",
         "mode" : "direct",
-        "init": 0
+        "init" : 0
     },
     "motor-rt" : {
-        "header" : 22,
+        "header" : 12,
         "direction" : "out",
         "mode" : "direct",
-        "init": 0
+        "init" : 0
     },
     "motor-up" : {
-        "header" : 4,
+        "header" : 16,
         "direction" : "out",
         "mode" : "direct",
-        "init": 0
+        "init" : 0
     },
     "motor-dn" : {
-        "header" : 17,
+        "header" : 20,
         "direction" : "out",
         "mode" : "direct",
-        "init": 0
+        "init" : 0
     },
     "motor-cl" : {
-        "header" : 2,
+        "header" : 21,
         "direction" : "out",
         "mode" : "direct",
-        "init": 0
+        "init" : 0
     },
     "rs" : {
         "mode" : "sequence",
@@ -60,7 +60,7 @@ var gpios = {
     "gr" : {
         "mode" : "sequence",
         "seq" : "grab"
-    },
+    }/*,
     "switch-lf" : {
         "header" : 14,
         "direction" : "in"
@@ -84,9 +84,10 @@ var gpios = {
     "switch-bt" : {
         "header" : 7,
         "direction" : "in"
-    }
+    }*/
 };
 
+var sock;
 setupServer();
 setupSocket();
 setPinDirection();
@@ -107,12 +108,13 @@ function setupSocket() {
 
         console.log("incoming connection", socket.id);
 
+        sock = socket;
         socket.emit("welcome");
 
         socket.on("btnpressed", function(data) {
 
             if(gpios[data].mode == "direct") {
-                gpios[data].pin.set(1-gpios[data].init);
+                gpios[data].pin.set(1);
                 socket.emit("echo", "pressed: " + data);
             }
             if(gpios[data].mode == "sequence") {
@@ -125,7 +127,7 @@ function setupSocket() {
         socket.on("btnreleased", function(data) {
 
             if(gpios[data].mode == "direct") {
-                gpios[data].pin.set(gpios[data].init);
+                gpios[data].pin.set(0);
                 socket.emit("echo", "released: " + data);
             }
             if(gpios[data].mode == "sequence") {
@@ -177,7 +179,39 @@ function setPinDirection() {
         }
     }
 
+    /*gpios["switch-lf"].pin.on("change", function(val) {
+        sock.emit("echo", "switch-lf");
+    });
 
+    gpios["switch-bk"].pin.on("change", function(val) {
+        sock.emit("echo", "switch-bk");
+    });
+
+    gpios["switch-ft"].pin.on("change", function(val) {
+        sock.emit("echo", "switch-ft");
+    });
+
+    gpios["switch-rt"].pin.on("change", function(val) {
+        sock.emit("echo", "switch-rt");
+    });
+
+    gpios["switch-tp"].pin.on("change", function(val) {
+        sock.emit("echo", "switch-tp");
+    });
+
+    gpios["switch-bt"].pin.on("change", function(val) {
+        sock.emit("echo", "switch-bt");
+    });
+*/
+    testPin();
+
+}
+
+function testPin() {
+
+//    console.log(gpios["switch-lf"].pin.value);
+
+//    setTimeout(testPin, 1000);
 }
 
 function setPinValue() {
